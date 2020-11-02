@@ -13,7 +13,13 @@ Post.reset_pk_sequence
 User.reset_pk_sequence
 Category.reset_pk_sequence
 
-User.create(username: "Chenyun", email:"abc123@abc.com", password: "abc123")
+chenyun = User.create(username: "Chenyun", email:"abc123@abc.com", password: "abc123")
+
+chenyun.avatar.attach(
+    io: File.open("./public/test.png"),
+    filename: "test.png",
+    content_type: "application/png"
+)
 
 5.times do
     User.create(

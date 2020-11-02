@@ -22,6 +22,7 @@ class UsersController < ApplicationController
     end
 
     def create
+        # byebug
         @user = User.create(user_params)
         if @user.valid?
             wristband_token = encode_token({user_id: @user.id})
@@ -71,7 +72,7 @@ class UsersController < ApplicationController
 
     private 
     def user_params
-        params.permit(:email, :password, :username)
+        params.permit(:email, :password, :username, :avatar)
     end
 
 end

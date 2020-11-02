@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   get "/posts", to: "posts#index"
   post "/posts", to: "posts#create"
+  patch "/posts/edit/:id", to: "posts#update"
   delete "/posts/:id", to: "posts#destroy"
 
   get "/categories", to: "categories#index"
