@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_01_174752) do
+ActiveRecord::Schema.define(version: 2020_11_02_235602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,11 @@ ActiveRecord::Schema.define(version: 2020_11_01_174752) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
@@ -61,6 +66,10 @@ ActiveRecord::Schema.define(version: 2020_11_01_174752) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "email"
     t.string "avatar"
+    t.string "reset_digest"
+    t.datetime "reset_sent_at"
+    t.string "google_token"
+    t.string "google_refresh_token"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

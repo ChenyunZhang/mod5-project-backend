@@ -47,3 +47,12 @@ gem 'active_model_serializers'
 gem 'faker'
 
 gem 'activerecord-reset-pk-sequence'
+
+gem 'omniauth-github', github: 'intridea/omniauth-github'
+gem 'omniauth-openid', github: 'intridea/omniauth-openid'
+
+gem 'omniauth-google-oauth2'
+
+gem 'google-api-client'
+
+gem "dotenv"

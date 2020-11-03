@@ -70,6 +70,14 @@ class UsersController < ApplicationController
         render json: user
     end
 
+    # def create_reset_digest
+    #     self.reset_token = User.new_token
+    # end
+
+    # def send_password_reset_email
+    #     UserMailer.password_reset(self).deliver_now
+    # end
+
     private 
     def user_params
         params.permit(:email, :password, :username, :avatar)

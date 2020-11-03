@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  resources :sessions
+  post "/password_resets", to: "password_resets#create"
+  post "/reset_password", to: "password_resets#update"
+
+  get "/google_login", to: redirect("/auth/google_oauth2")
+  get "/google_logout", to: "sessions#destroy"
+  get "/auth/google_oauth2/callback", to: "sessions#create"
+  get 'auth/failure', to: redirect('/')
+  resource :session, only: [:create, :destroy]
+
   post "/login", to: "users#login"
   post "/users", to: "users#create"
   get "/users", to: "users#index"
