@@ -55,4 +55,4 @@ gem 'omniauth-google-oauth2'
 
 gem 'google-api-client'
 
-gem "dotenv"
+gem 'dotenv-rails', groups: [:development, :test]

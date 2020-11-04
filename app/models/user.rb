@@ -5,19 +5,29 @@ class User < ApplicationRecord
     has_many :posts, dependent: :destroy
 
     validates_uniqueness_of :email
-    validates :password, length: { in: 6..20 }
+    # validates :password, length: { in: 6..20 }
 
-    def User.new_token
-        SecureRandom.urlsafe_base64
-    end
 
-    def self.create_from_omniauth(auth)
-        # Creates a new user only if it doesn't exist
-        where(email: auth.info.email).first_or_initialize do |user|
-            user.uid = auth.uid
-            user.name = auth.info.name
-            user.email = auth.info.email
-            user.image_url = auth.info.image
-        end
+    def send_password_reset
+        self.reset_digest = generate_base64_token
+        self.reset_sent_at = Time.zone.now
+        save!
+        UserMailer.password_reset(self).deliver_now
+      end
+    
+      def password_token_valid?
+        (self.reset_sent_at + 1.hour) > Time.zone.now
+      end
+    
+      def reset_password(password)
+        self.reset_digest = nil
+        self.password = password
+        save!
+      end
+
+    private
+
+    def generate_base64_token
+      test = SecureRandom.urlsafe_base64
     end
 end
