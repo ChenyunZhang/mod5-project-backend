@@ -22,8 +22,10 @@ class PasswordResetsController < ApplicationController
             message: "Your password has been successfuly reset!"
           }
         else
-          render json: { message: user.errors.full_messages }, status: :unprocessable_entity
+          render json: { message: "password not matching" }, status: :unprocessable_entity
         end
+      elsif !use = User.find_by(email: params[:email])
+        render json: {message:  ['invalid email address']}, status: :not_found
       else
         render json: {message:  ['Link not valid or expired. Try generating a new link.']}, status: :not_found
       end
