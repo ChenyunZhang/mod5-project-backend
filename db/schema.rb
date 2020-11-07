@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_02_235602) do
+ActiveRecord::Schema.define(version: 2020_11_06_202503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,19 @@ ActiveRecord::Schema.define(version: 2020_11_02_235602) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "books", force: :cascade do |t|
+    t.string "book_average_rating"
+    t.string "description"
+    t.integer "rating_count"
+    t.string "imageLink"
+    t.string "category"
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "book_author"
+    t.string "book_textsnippet"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", precision: 6, null: false
@@ -43,14 +56,13 @@ ActiveRecord::Schema.define(version: 2020_11_02_235602) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "title"
     t.string "content"
-    t.bigint "category_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "image"
-    t.index ["category_id"], name: "index_posts_on_category_id"
+    t.bigint "book_id", null: false
+    t.index ["book_id"], name: "index_posts_on_book_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -72,7 +84,17 @@ ActiveRecord::Schema.define(version: 2020_11_02_235602) do
     t.string "google_refresh_token"
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "post_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_votes_on_post_id"
+    t.index ["user_id"], name: "index_votes_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "posts", "categories"
   add_foreign_key "posts", "users"
+  add_foreign_key "votes", "posts"
+  add_foreign_key "votes", "users"
 end
