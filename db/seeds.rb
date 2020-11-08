@@ -83,7 +83,7 @@ url_comics="https://www.googleapis.com/books/v1/volumes?q=comics&startIndex=0&or
     uri = URI.parse(url_comics)
     response = Net::HTTP.get_response(uri)
     if response.code == "200"
-        result = JSON.parse(response.body)
+        result = JSON.parse(response.body) 
     end
     book_title = result["items"].map{|item| item["volumeInfo"]["title"]}
     book_description = result["items"].map{|item| item["volumeInfo"]["description"]}
