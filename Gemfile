@@ -54,5 +54,8 @@ gem 'omniauth-openid', github: 'intridea/omniauth-openid'
 gem 'omniauth-google-oauth2'
 
 gem 'google-api-client'
+gem 'omniauth'
 
 gem 'dotenv-rails', groups: [:development, :test]
+
+gem 'cloudinary'

@@ -1,7 +1,11 @@
+Votedown.destroy_all
+Voteup.destroy_all
 Post.destroy_all
 User.destroy_all
 Book.destroy_all
 
+Votedown.reset_pk_sequence
+Voteup.reset_pk_sequence
 Post.reset_pk_sequence
 User.reset_pk_sequence
 Book.reset_pk_sequence
@@ -79,8 +83,7 @@ while i < 50 do
     i+=1
 end
 
-
-300.times do
+10.times do
     Post.create(
         content:Faker::Lorem.paragraph,
         book: Book.all[rand(0..200)],

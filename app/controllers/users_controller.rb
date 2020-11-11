@@ -5,12 +5,10 @@ class UsersController < ApplicationController
         @user = User.find_by(email: params[:email])
         if @user && @user.authenticate(params[:password])
             wristband_token = encode_token({user_id: @user.id})
-
             render json: {
-                user: UserSerializer.new(@user), 
+                user: UserSerializer.new(@user),
                 token: wristband_token
             }
-
         else
             render json: {error: "Incorrect username or password"}, status: 422
         end
@@ -22,13 +20,29 @@ class UsersController < ApplicationController
     end
 
     def create
-        # byebug
         @user = User.create(user_params)
         if @user.valid?
             wristband_token = encode_token({user_id: @user.id})
 
             render json: {
-                user: UserSerializer.new(@user), 
+                user: UserSerializer.new(@user),
+                token: wristband_token
+            }
+        else
+            render json: {error: "Invalid email/password must have at least 6 characters long"}, status: 422
+        end
+    end
+
+    def find_or_create
+        # byebug
+        @user = User.find_by(email:user_params[:email]) || User.create(user_params)
+
+
+        if @user && params[:email]!=""
+            wristband_token = encode_token({user_id: @user.id})
+
+            render json: {
+                user: UserSerializer.new(@user),
                 token: wristband_token
             }
         else
@@ -54,7 +68,9 @@ class UsersController < ApplicationController
         wristband_token = encode_token({user_id: user.id})
 
         if (User.all.any?{|alluser| alluser.email == params[:email] && alluser.id != params[:id].to_i})
-            render json: {error: "The email address has already registered/password must be 6 characters long"}, status: 422
+            render json: {error: "The email address has already registered"}, status: 422
+        elsif params["password"].length<6
+            render json: {error: "Password must be at least 6 character long"}, status: 422
         else
             user.update(user_params)
             render json: {

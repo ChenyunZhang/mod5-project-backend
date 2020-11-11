@@ -16,7 +16,7 @@ class PasswordResetsController < ApplicationController
     # byebug
       user = User.find_by(reset_digest: params[:token], email: params[:email])
       if user.present? && user.password_token_valid?
-        if params[:password]==params[:password_confirmation]
+        if params[:password] == params[:password_confirmation]
           user.reset_password(params[:password])
           render json: {
             message: "Your password has been successfuly reset!"
@@ -24,9 +24,9 @@ class PasswordResetsController < ApplicationController
         else
           render json: { message: "password not matching" }, status: :unprocessable_entity
         end
-      elsif !use = User.find_by(email: params[:email])
+      elsif !user = User.find_by(email: params[:email])
         render json: {message:  ['invalid email address']}, status: :not_found
-      else
+      elsif user.password_token_valid?
         render json: {message:  ['Link not valid or expired. Try generating a new link.']}, status: :not_found
       end
   end

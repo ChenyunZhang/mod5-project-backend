@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
+  resources :voteups
+  resources :votedowns
+  resources :books
   resources :sessions
   post "/password_resets", to: "password_resets#create"
   post "/reset_password", to: "password_resets#update"
-
-  get "/google_login", to: redirect("/auth/google_oauth2")
-  get "/google_logout", to: "sessions#destroy"
-  get "/auth/google_oauth2/callback", to: "sessions#create"
-  get 'auth/failure', to: redirect('/')
-  resource :session, only: [:create, :destroy]
+  
+  get "/auth/google_oauth2/callback", to: "sessions#GoogleAuth"
+  post "/usersgoogle", to: "users#find_or_create"
 
   post "/login", to: "users#login"
   post "/users", to: "users#create"
@@ -23,5 +23,16 @@ Rails.application.routes.draw do
   delete "/posts/:id", to: "posts#destroy"
 
   get "/categories", to: "categories#index"
+
+  get "/books", to: "books#index"
+
+  get "/voteups", to: "voteups#index"
+  post "/voteups", to: "voteups#create"
+  delete "/voteups/:id", to: "voteups#destroy"
+
+  get "/votedowns", to: "votedowns#index"
+  post "/votedowns", to: "votedowns#create"
+  delete "/votedowns/:id", to: "votedowns#destroy"  
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

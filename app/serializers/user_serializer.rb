@@ -3,7 +3,9 @@ class UserSerializer < ActiveModel::Serializer
   attributes :id, :username, :email, :avatar
 
   has_many :posts
-
+  has_many :votedowns
+  has_many :voteups
+  has_many :books, through: :posts
 
   def avatar
     if object.avatar.attached?

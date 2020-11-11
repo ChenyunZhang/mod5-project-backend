@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
     def index
-        posts = Post.all
+        posts = Post.order("created_at DESC").all
         render json: posts
     end
 
@@ -30,6 +30,6 @@ class PostsController < ApplicationController
 
     private
     def post_params
-        params.permit(:content, :title, :user_id, :category_id, :image)
+        params.permit(:content, :title, :user_id, :image, :book_id)
     end
 end

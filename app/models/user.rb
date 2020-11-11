@@ -3,6 +3,10 @@ class User < ApplicationRecord
     has_secure_password
     has_one_attached :avatar, dependent: :destroy
     has_many :posts, dependent: :destroy
+    has_many :votedowns, dependent: :destroy
+    has_many :voteups, dependent: :destroy
+    has_many :books, through: :posts
+
 
     validates_uniqueness_of :email
     # validates :password, length: { in: 6..20 }
@@ -25,9 +29,21 @@ class User < ApplicationRecord
         save!
       end
 
+    def self.from_omniauth(auth)
+      p auth.info
+      where(email: auth.info.email).first_or_initialize do |user|
+        # user.avatar = auth.info.image
+        user.username = auth.info.name
+        user.email=auth.info.email
+        user.avatar = auth.info.imageUrl
+        user.password = SecureRandom.urlsafe_base64
+      end
+    end
+
     private
 
     def generate_base64_token
       test = SecureRandom.urlsafe_base64
     end
+
 end

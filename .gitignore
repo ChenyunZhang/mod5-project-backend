@@ -27,4 +27,6 @@
 /config/master.key
 /config/initializers/omniauth.rb
 /.env
+/config/cloudinary.yml
+
 
