@@ -100,9 +100,25 @@ book_snippet =final.flatten.map{|book| book["searchInfo"]["textSnippet"]}
 
     # p book_title.length
     # p book_description.length
-    p book_category[0]
+    # p book_category[0]
     # p book_imageLinks.length
     # p book_author.length
     # p book_snippet.length
     
 
+
+
+unsplash_url= "https://api.imgflip.com/get_memes"
+
+def unsplash(url)
+    uri = URI.parse(url)
+    response = Net::HTTP.get_response(uri)
+
+    if response.code == "200"
+        result = JSON.parse(response.body)
+    end
+
+    imageArr = result["data"]["memes"].slice(0..49).map{|image| image["url"]}
+end
+
+unsplash(unsplash_url)

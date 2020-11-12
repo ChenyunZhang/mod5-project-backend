@@ -15,23 +15,6 @@ require 'openssl'
 require 'json'
 require 'uri'
 
-
-chenyun = User.create(username: "Chenyun", email:"abc123@abc.com", password: "abc123")
-
-chenyun.avatar.attach(
-    io: File.open("./public/test.png"),
-    filename: "test.png",
-    content_type: "application/png"
-)
-
-5.times do
-    User.create(
-        username: Faker::Name.unique.name,
-        email: Faker::Internet.email,
-        password: "abc123"
-    )
-end
-
 url_art="https://www.googleapis.com/books/v1/volumes?q=art&orderBy=relevance&maxResults=30&key=#{ENV['GOOGLE_BOOK_API']}"
 url_business="https://www.googleapis.com/books/v1/volumes?q=business&orderBy=relevance&maxResults=30&key=#{ENV['GOOGLE_BOOK_API']}"
 url_fiction="https://www.googleapis.com/books/v1/volumes?q=fiction&orderBy=relevance&maxResults=40&key=#{ENV['GOOGLE_BOOK_API']}"
@@ -70,6 +53,7 @@ book_imageLinks = final.flatten.map{|book| book["volumeInfo"]["imageLinks"]["thu
 book_author = final.flatten.map{|book| book["volumeInfo"]["authors"]}
 book_snippet =final.flatten.map{|book| book["searchInfo"]["textSnippet"]}
 
+
 i=0
 while i < 50 do
     Book.create(
@@ -81,6 +65,24 @@ while i < 50 do
         book_textsnippet: book_snippet ? book_snippet[i] : ""
     )
     i+=1
+end
+
+chenyun = User.create(username: "Chenyun", email:"abc123@abc.com", password: "abc123")
+
+chenyun.avatar.attach(
+    io: File.open("./public/test.png"),
+    filename: "test.png",
+    content_type: "application/png"
+)
+
+a = 0
+while a < 50 do
+    User.create(
+        username: Faker::Name.unique.name,
+        email: Faker::Internet.email,
+        password: "abc123"
+    )
+    a+=1
 end
 
 20.times do
