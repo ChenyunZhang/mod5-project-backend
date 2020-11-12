@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
 
     def index 
-        books= Book.all.sort{ |a, b| a <=> b }
+        books= Book.order("book_author DESC").all
         render json: books
     end
 end

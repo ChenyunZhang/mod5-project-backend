@@ -24,7 +24,7 @@ chenyun.avatar.attach(
     content_type: "application/png"
 )
 
-15.times do
+5.times do
     User.create(
         username: Faker::Name.unique.name,
         email: Faker::Internet.email,
@@ -83,10 +83,10 @@ while i < 50 do
     i+=1
 end
 
-10.times do
+20.times do
     Post.create(
         content:Faker::Lorem.paragraph,
-        book: Book.all[rand(0..200)],
-        user: User.all[rand(0..15)]
+        book: Book.all.sample,
+        user: User.all.sample
     )
 end

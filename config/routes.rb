@@ -32,7 +32,7 @@ Rails.application.routes.draw do
 
   get "/votedowns", to: "votedowns#index"
   post "/votedowns", to: "votedowns#create"
-  delete "/votedowns/:id", to: "votedowns#destroy"  
+  delete "/votedowns/:id", to: "votedowns#destroy"
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

@@ -6,17 +6,16 @@ class VotedownsController < ApplicationController
     end
 
     def create          
-        exist_votedown = Votedown.find_by(post_id: params[:post_id])
+        exist_votedown = Votedown.find_by(user_id: params[:user_id], post_id:params[:post_id])
         if !exist_votedown
-            votedown = Votedown.create(voteup_params)
+            votedown = Votedown.create(votedown_params)
             render json: votedown
         else
-            render json: {error: "you voted up already"}
+            render json: {error: "you voted down already"}
         end
     end
 
     def destroy
-        byebug
         votedown = Votedown.find_by(id: params[:id])
         votedown.destroy
         render json: votedown

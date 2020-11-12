@@ -5,8 +5,9 @@ class VoteupsController < ApplicationController
         render json: voteups
     end
 
-    def create          
-        exist_voteup = Voteup.find_by(user_id: params[:user_id])
+    def create     
+        # byebug
+        exist_voteup = Voteup.find_by(user_id: params[:user_id], post_id:params[:post_id])
         if !exist_voteup
             voteup = Voteup.create(voteup_params)
             render json: voteup
@@ -16,7 +17,6 @@ class VoteupsController < ApplicationController
     end
 
     def destroy
-        byebug
         voteup = Voteup.find_by(id: params[:id])
         voteup.destroy
         render json: voteup
