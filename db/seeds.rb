@@ -87,6 +87,7 @@ end
     Post.create(
         content:Faker::Lorem.paragraph,
         book: Book.all.sample,
-        user: User.all.sample
+        user: User.all.sample,
+        rating: rand(1..5)
     )
 end
