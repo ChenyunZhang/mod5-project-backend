@@ -6,6 +6,6 @@ class Post < ApplicationRecord
   has_many :voteups, dependent: :destroy
 
   def created_time
-    self.created_at.strftime("%m/%d/%Y %T")
+    self.created_at.in_time_zone('EST').strftime("%m/%d/%Y %T")
   end
 end

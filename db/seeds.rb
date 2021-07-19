@@ -53,6 +53,19 @@ book_imageLinks = final.flatten.map{|book| book["volumeInfo"]["imageLinks"]["thu
 book_author = final.flatten.map{|book| book["volumeInfo"]["authors"]}
 book_snippet =final.flatten.map{|book| book["searchInfo"]["textSnippet"]}
 
+meme_url= "https://api.imgflip.com/get_memes"
+
+def meme(url)
+    uri = URI.parse(url)
+    response = Net::HTTP.get_response(uri)
+
+    if response.code == "200"
+        result = JSON.parse(response.body)
+    end
+
+    imageArr = result["data"]["memes"].slice(11..60).map{|image| image["url"]}
+end
+
 
 i=0
 while i < 50 do
@@ -67,7 +80,7 @@ while i < 50 do
     i+=1
 end
 
-chenyun = User.create(username: "Chenyun", email:"abc123@abc.com", password: "abc123")
+chenyun = User.create(username: "Chenyun", email:"melonw816@gmail.com", password: "abc123")
 
 chenyun.avatar.attach(
     io: File.open("./public/test.png"),
@@ -75,21 +88,33 @@ chenyun.avatar.attach(
     content_type: "application/png"
 )
 
+
+
 a = 0
-while a < 50 do
+while a < 20 do
     User.create(
         username: Faker::Name.unique.name,
         email: Faker::Internet.email,
-        password: "abc123"
+        password: "abc123",
+        image: meme(meme_url)[a]
     )
     a+=1
 end
 
-20.times do
+100.times do
     Post.create(
-        content:Faker::Lorem.paragraph,
+        content:"#{Faker::Company.catch_phrase}.",
         book: Book.all.sample,
         user: User.all.sample,
+        rating: rand(1..5)
+    )
+end
+
+29.times do
+    Post.create(
+        content:"#{Faker::Company.catch_phrase}.",
+        book: Book.all.sample,
+        user: User.first,
         rating: rand(1..5)
     )
 end

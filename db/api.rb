@@ -121,4 +121,4 @@ def unsplash(url)
     imageArr = result["data"]["memes"].slice(0..49).map{|image| image["url"]}
 end
 
-unsplash(unsplash_url)
+p unsplash(unsplash_url)
